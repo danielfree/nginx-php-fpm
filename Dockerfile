@@ -5,7 +5,7 @@ MAINTAINER ngineered <support@ngineered.co.uk>
 ENV php_conf /etc/php5/php.ini
 ENV fpm_conf /etc/php5/php-fpm.conf
 
-RUN echo @testing http://mirrors.aliyun.com/alpine/edge/testing >> /etc/apk/repositories && \
+RUN sed -i "s/dl-cdn\.alpinelinux\.org/mirrors\.aliyun\.com/g" /etc/apk/repositories && \
     cat /etc/apk/repositories && \
     apk update && \
     apk add --no-cache bash \
