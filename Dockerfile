@@ -4,10 +4,9 @@ MAINTAINER ngineered <support@ngineered.co.uk>
 
 ENV php_conf /etc/php5/php.ini
 ENV fpm_conf /etc/php5/php-fpm.conf
-ENV composer_hash 61069fe8c6436a4468d0371454cf38a812e451a14ab1691543f25a9627b97ff96d8753d92a00654c21e2212a5ae1ff36
 
-RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories && \
-    echo /etc/apk/respositories && \
+RUN echo @testing http://mirrors.aliyun.com/alpine/edge/testing >> /etc/apk/repositories && \
+    cat /etc/apk/repositories && \
     apk update && \
     apk add --no-cache bash \
     openssh-client \
@@ -26,20 +25,12 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     php5-gd \
     php5-exif \
     php5-intl \
-    php5-memcache \
-    php5-sqlite3 \
-    php5-pgsql \
     php5-xml \
-    php5-xsl \
     php5-curl \
     php5-openssl \
     php5-iconv \
     php5-json \
-    php5-phar \
-    php5-soap \
-    php5-dom \
     php5-zip \
-    php5-redis@testing \
     python \
     python-dev \
     py-pip \
@@ -55,10 +46,6 @@ RUN echo @testing http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repo
     mkdir -p /var/www/app && \
     mkdir -p /run/nginx && \
     mkdir -p /var/log/supervisor &&\
-    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    php -r "if (hash_file('SHA384', 'composer-setup.php') === '${composer_hash}') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
-    php composer-setup.php --install-dir=/usr/bin --filename=composer && \
-    php -r "unlink('composer-setup.php');" && \
     pip install -U pip && \
     pip install -U certbot && \
     mkdir -p /etc/letsencrypt/webrootauth && \
@@ -84,8 +71,8 @@ RUN ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/defau
 # tweak php-fpm config
 RUN sed -i \
         -e "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" \
-        -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" \
-        -e "s/post_max_size\s*=\s*8M/post_max_size = 100M/g" \
+        -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 500M/g" \
+        -e "s/post_max_size\s*=\s*8M/post_max_size = 500M/g" \
         -e "s/variables_order = \"GPCS\"/variables_order = \"EGPCS\"/g" \
         ${php_conf} && \
     sed -i \
