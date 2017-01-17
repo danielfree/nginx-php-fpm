@@ -21,6 +21,7 @@ RUN sed -i "s/dl-cdn\.alpinelinux\.org/mirrors\.aliyun\.com/g" /etc/apk/reposito
     php5-mysqli \
     php5-mcrypt \
     php5-ctype \
+    php5-dom \
     php5-zlib \
     php5-gd \
     php5-exif \
