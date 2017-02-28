@@ -14,6 +14,7 @@ RUN sed -i "s/dl-cdn\.alpinelinux\.org/mirrors\.aliyun\.com/g" /etc/apk/reposito
     supervisor \
     curl \
     git \
+	php5-dom \
     php5-fpm \
     php5-pdo \
     php5-pdo_mysql \
